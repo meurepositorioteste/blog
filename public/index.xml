@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>blog do Mikael a.k.a mdsm</title>
+    <link>http://localhost:1313/</link>
+    <description>Recent content on blog do Mikael a.k.a mdsm</description>
+    <generator>Hugo</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 26 Apr 2024 16:29:22 -0300</lastBuildDate>
+    <atom:link href="http://localhost:1313/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Git Exposed Attack</title>
+      <link>http://localhost:1313/posts/git-exposed-attack/</link>
+      <pubDate>Fri, 26 Apr 2024 16:29:22 -0300</pubDate>
+      <guid>http://localhost:1313/posts/git-exposed-attack/</guid>
+      <description>Git exposed Attack 🔗 Exposição da pasta .git em um servidor web Obtém acesso a todo código fonte da aplicação Pasta objects fica todas as alterações feita Extensão dotGit ajuda achar .git exposto O wfuzz mapea a url do site procurando a pasta .git exposta wfuzz -c -z file, [wordlist] [filtro de tamanho] [url]/FUZZ A ferramenta git-dumper extrai dados do arquivo .git git_dumper.py [url] [pasta de output] Baixa o arquivo .</description>
+    </item>
+  </channel>
+</rss>
