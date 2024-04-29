@@ -1,0 +1,142 @@
+nome: Implantar o site Hugo nas páginas
+ 
+
+em:
+ 
+  # Executa em pushes direcionados ao branch padrão
+ 
+  push:
+ 
+    ramos:
+ 
+      - main
+ 
+
+  # Permite que você execute este fluxo de trabalho manualmente na guia Ações
+ 
+  workflow_dispatch:
+ # Define permissões do GITHUB_TOKEN para permitir a implantação nas permissões 
+
+do GitHub Pages
+ 
+:
+ 
+  conteúdo: ler
+ 
+  páginas: escrever
+ 
+  id-token: escrever
+ 
+
+# Permitir apenas uma implantação simultânea, ignorando execuções enfileiradas entre a execução em andamento e a última enfileirada.
+ 
+# No entanto, NÃO cancele execuções em andamento, pois queremos permitir que essas implantações de produção sejam concluídas.
+ 
+simultaneidade:
+ 
+  grupo: "páginas"
+ 
+  cancel-in-progress: false
+ 
+
+# Padrão para bash
+ 
+padrões:
+ 
+  run:
+ 
+    shell: bash
+ 
+
+jobs:
+ 
+  # Build job
+ 
+  build:
+ 
+    runs-on: ubuntu-latest
+ 
+    env:
+ 
+      HUGO_VERSION: 0.115.4
+ 
+    steps:
+ 
+      - name : Instale o Hugo CLI,
+ 
+        execute: |
+ 
+          wget -O ${{ runner.temp }}/hugo.deb https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.deb \
+ 
+          && sudo dpkg -i ${{ runner.temp }}/hugo.deb
+ 
+ 
+      - nome: Checkout
+ 
+        usa: actions/checkout@v3
+ 
+        com:
+ 
+          submodules: true
+ 
+          fetch-profundidade: 0
+ 
+      - nome:
+ 
+        ID das páginas de configuração:
+ 
+        usos das páginas: actions/configure-pages@v3
+ 
+      - nome: Instalar dependências do Node.js
+ 
+        execute: "[[ -f package-lock.json || -f npm-shrinkwrap.json ]] && npm ci || true"
+ 
+      - nome: Construir com Hugo
+ 
+        env:
+ 
+          # Para máxima compatibilidade retroativa com módulos Hugo
+ 
+          HUGO_ENVIRONMENT: produção
+ 
+          HUGO_ENV:
+ 
+        execução de produção: |
+ 
+          hugo \
+ 
+            --gc \
+ 
+            --minify \
+ 
+            --baseURL "${{ steps.pages.outputs.base_url }}/"
+ 
+      - nome: Artefato de upload
+ 
+        usa: actions/upload-pages-artifact@v1
+ 
+        com:
+ 
+          caminho: ./ public
+ 
+
+  #
+ 
+  Implantação do trabalho de implantação:
+ 
+    ambiente:
+ 
+      nome: github-pages
+ 
+      url: ${{ steps.deployment.outputs.page_url }}
+ 
+    execução: ubuntu-latest
+ 
+    necessidades:
+ 
+    etapas de construção:
+ 
+      - nome: Implantar nas páginas do GitHub
+        id:
+ 
+        usos de implantação: actions/deploy-pages@v2
